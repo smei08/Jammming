@@ -9,7 +9,7 @@ function TrackList({searchResult, addToPlaylist}) {
                 searchResult.map((track) => 
                     <Track 
                         key={track.title}
-                        song={track}
+                        track={track}
                         addToPlaylist={addToPlaylist}
                     />
                 )

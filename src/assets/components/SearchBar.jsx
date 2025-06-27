@@ -1,11 +1,11 @@
 import React from "react";
 
-function SearchBar({ songSearch, searchUpdate,handleSearchSubmit }) {
+function SearchBar({ songSearch, searchUpdate,handleSearchResult }) {
     console.log('searchbar loading...' + songSearch);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        handleSearchSubmit();
+        handleSearchResult();
     }
 
     return (
