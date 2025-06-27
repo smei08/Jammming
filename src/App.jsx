@@ -1,9 +1,12 @@
 import { useState } from 'react'
 import './App.css'
 import SearchBar from './assets/components/SearchBar';
+import Track from './assets/components/Track';
+import TrackList from './assets/components/TrackList';
 
 function App() {
   const [songSearch, setSongSearch] = useState('');
+  const [searchResult, setSearchResult] = useState([]);
 
   const handleSongSearch = (e) => {
     setSongSearch(e.target.value);
@@ -12,6 +15,15 @@ function App() {
   const handleSearchSubmit = () => {
     console.log('search submitted: ', songSearch);
   };
+
+  const handleSearchResult = (e) => {
+    setSearchResult(data.track.items);
+  }
+  
+  const addToPlaylist = (track) => {
+    console.log('addded to pkaylist: ', track);
+  }
+
 
   return (
     <>
@@ -28,10 +40,10 @@ function App() {
           handleSearchSubmit={handleSearchSubmit}
         />
         <hr></hr>
-        <div>
-          <p>TrackList</p>
-          <button>+</button> 
-        </div>
+        <TrackList 
+          searchResult={searchResult}
+          addToPlaylist={addToPlaylist}
+        />
         <hr></hr>
         <div>
           <p>Playlist</p>
