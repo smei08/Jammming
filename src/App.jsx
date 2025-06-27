@@ -6,18 +6,31 @@ function App() {
 
   return (
     <>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <h1>Jammming</h1>
+      <h3>Search for your favorite songs, make your own playlist, and export to your Spotify</h3>
+      <div>
+        <button>Login</button> /* only show everything else when user login */
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <hr></hr>
+      <div className="components">
+        <div>
+          <p>SearchBar</p>
+          <input placeholder='search for song, artist ..'></input>
+          <button>Search</button>
+        </div>
+        <hr></hr>
+        <div>
+          <p>TrackList</p>
+          <button>+</button> /* for each song */
+        </div>
+        <hr></hr>
+        <div>
+          <p>Playlist</p>
+          <button>-</button> /* for each song */
+          <button>export</button>
+        </div>
+        <hr></hr>
+      </div>
     </>
   )
 }
