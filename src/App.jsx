@@ -1,14 +1,16 @@
-import { use, useState } from 'react'
+import { use, useEffect, useState } from 'react'
 import './App.css'
 import SearchBar from './assets/components/SearchBar';
 // import Track from './assets/components/Track';
 import TrackList from './assets/components/TrackList';
 import Playlist from './assets/components/Playlist';
+import { AUTH_ENDPOINT } from './SpotifyAuth';
 
 function App() {
   const [songSearch, setSongSearch] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const [playlist, setPlaylist] = useState([]);
+  const [token, setToken] = useState('');
 
 
   const handleSongSearch = (e) => {
@@ -54,32 +56,73 @@ function App() {
     console.log('playlist exporting...');
   };
 
+  const handleLogout = () => {
+    setToken('');
+    window.localStorage.removeItem('spotify_token');
+  }
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    const storedToken = window.localStorage.getItem('spotify_token');
+
+    console.log('storedToken (from localStorage):', storedToken); 
+    console.log('hash (from URL):', hash);
+
+    if (!storedToken && hash) {
+      const tokenMatch = hash.match(/access_token=([^&]*)/);
+      const newToken = tokenMatch && tokenMatch[1];
+
+      console.log('newToken (from URL hash):', newToken); 
+
+      if (newToken) {
+        window.localStorage.setItem('spotify_token', newToken);
+        setToken(newToken);
+        window.location.hash = '';
+      }
+    } else if (storedToken) {
+      setToken(storedToken);
+    }
+  }, []);
+
   return (
     <>
       <h1>Jammming</h1>
       <h3>Search for your favorite songs, make your own playlist, and export to your Spotify</h3>
+
+      <p>Token: {token}</p>
+
+      <p style={{ wordBreak: 'break-all' }}>🧪 Token: {token}</p>
       <div>
-        <button>Login</button> 
-      </div>
-      <hr></hr>
-      <div className="components">
-        <SearchBar 
-          songSearch={songSearch}
-          searchUpdate={handleSongSearch}
-          handleSearchResult={handleSearchResult}
-        />
-        <hr></hr>
-        <TrackList 
-          searchResult={searchResult}
-          addToPlaylist={addToPlaylist}
-        />
-        <hr></hr>
-        <Playlist 
-          playlist={playlist}
-          removeFromPlaylist={removeFromPlaylist}
-          exportPlaylist={exportPlaylist}
-        />
-        <hr></hr>
+        {
+          !token ? (
+            <div>
+              <p>Please log in to continue</p>
+              <a href={AUTH_ENDPOINT}>
+                <button>log in with Spotify</button>
+              </a>
+            </div>
+          ) : (
+            <div className="components">
+              <button onClick={handleLogout}>Log Out</button>
+              <SearchBar 
+                songSearch={songSearch}
+                searchUpdate={handleSongSearch}
+                handleSearchResult={handleSearchResult}
+              />
+              <hr></hr>
+              <TrackList 
+                searchResult={searchResult}
+                addToPlaylist={addToPlaylist}
+              />
+              <hr></hr>
+              <Playlist 
+                playlist={playlist}
+                removeFromPlaylist={removeFromPlaylist}
+                exportPlaylist={exportPlaylist}
+              />
+            </div>
+          )
+        }
       </div>
     </>
   )
