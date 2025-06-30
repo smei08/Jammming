@@ -1,15 +1,25 @@
-/* tells spotify users are tyring to login through my app */
-const clientID = 'f9421397d4db4d02b5c7041c0b49f247';
-/* redirect back to my app after log in */
-const redirectURL = 'https://jammtogether.netlify.app/';
-/* what kinds of permission i am asking from spotify --> edit private and pubic playlist */
-const scope = "playlist-modify-public playlist-modify-private user-read-private";
+import { generateCodeVerifier, generateCodeChallenge } from './pkceUtils';
 
-/* the base of the url */
-const base = 'https://accounts.spotify.com/authorize';
-/* to format redirect url since they cant contain characters */
-const encodedRedirect = encodeURIComponent(redirectURL);
-const encodedScope = encodeURIComponent(scope);
+const clientId = 'f9421397d4db4d02b5c7041c0b49f247';
+const redirectUri = 'https://jammtogether.netlify.app/'; // Your app URL
+const scope = 'playlist-modify-private playlist-modify-public';
 
-/* builds the full login link */
-export const AUTH_ENDPOINT = `${base}?client_id=${clientID}&response_type=token&redirect_uri=${encodedRedirect}&scope=${encodedScope}`;
+export async function redirectToSpotifyLogin() {
+  const codeVerifier = generateCodeVerifier();
+  const codeChallenge = await generateCodeChallenge(codeVerifier);
+
+  // Save the code verifier in localStorage so we can use it later
+  localStorage.setItem('pkce_code_verifier', codeVerifier);
+
+  // Create the full login URL
+  const authUrl = `https://accounts.spotify.com/authorize?` +
+    `response_type=code&` +
+    `client_id=${clientId}&` +
+    `scope=${encodeURIComponent(scope)}&` +
+    `redirect_uri=${encodeURIComponent(redirectUri)}&` +
+    `code_challenge_method=S256&` +
+    `code_challenge=${codeChallenge}`;
+
+  // Redirect to Spotify
+  window.location.href = authUrl;
+}
