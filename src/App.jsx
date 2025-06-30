@@ -4,7 +4,7 @@ import SearchBar from './assets/components/SearchBar';
 // import Track from './assets/components/Track';
 import TrackList from './assets/components/TrackList';
 import Playlist from './assets/components/Playlist';
-import { AUTH_ENDPOINT } from './SpotifyAuth';
+import { redirectToSpotifyLogin } from './redirectToSpotifyLogin';
 
 function App() {
   const [songSearch, setSongSearch] = useState('');
@@ -12,6 +12,7 @@ function App() {
   const [playlist, setPlaylist] = useState([]);
   const [token, setToken] = useState('');
 
+  console.log('token state:', token);
 
   const handleSongSearch = (e) => {
     setSongSearch(e.target.value);
@@ -34,7 +35,6 @@ function App() {
       }
     ]);
   };
-
   
   const addToPlaylist = (track) => {
     console.log('addded to playlist: ', track);
@@ -56,50 +56,92 @@ function App() {
     console.log('playlist exporting...');
   };
 
+  useEffect(() => {
+    console.log('useEffect running...');
+    
+    const storedToken = localStorage.getItem('spotify_token');
+    console.log('Stored token:', storedToken);
+
+    // Check if we already have a token stored
+    if (storedToken) {
+      console.log('🔓 Already logged in!');
+      setToken(storedToken);
+      return;
+    }
+
+    console.log('🔍 Checking for code in URL...');
+    console.log('URL full string:', window.location.href);
+
+    // Check if Spotify returned a code in the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+    console.log('URL code:', code);
+
+    if (!code) {
+      console.log('No code in URL — user has not logged in yet.');
+      return;
+    }
+
+    // Get the PKCE code verifier we saved before redirecting
+    const codeVerifier = localStorage.getItem('pkce_code_verifier');
+
+    if (!codeVerifier) {
+      console.error('No PKCE code_verifier found in localStorage');
+      return;
+    }
+
+    // Exchange the code for an access token
+    fetch('https://accounts.spotify.com/api/token', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded'
+  },
+  body: new URLSearchParams({
+    client_id: 'f9421397d4db4d02b5c7041c0b49f247',
+    grant_type: 'authorization_code',
+    code,
+    redirect_uri: 'https://jammtogether.netlify.app/',
+    code_verifier: codeVerifier
+  })
+})
+  .then(async response => {
+    const data = await response.json();
+    console.log('🎉 Token response status:', response.status);
+    console.log('🎉 Token response body:', data);
+
+    if (response.ok && data.access_token) {
+      localStorage.setItem('spotify_token', data.access_token);
+      setToken(data.access_token);
+      window.history.replaceState({}, null, window.location.pathname);
+    } else {
+      console.error('❌ Failed to get access token:', data);
+    }
+  })
+  .catch(error => {
+    console.error('❌ Network or code error:', error);
+  });
+
+  }, []);
+
+
+
+  // Logout: clears the token from memory and localStorage
   const handleLogout = () => {
     setToken('');
-    window.localStorage.removeItem('spotify_token');
-  }
-
-  useEffect(() => {
-    const hash = window.location.hash;
-    const storedToken = window.localStorage.getItem('spotify_token');
-
-    console.log('storedToken (from localStorage):', storedToken); 
-    console.log('hash (from URL):', hash);
-
-    if (!storedToken && hash) {
-      const tokenMatch = hash.match(/access_token=([^&]*)/);
-      const newToken = tokenMatch && tokenMatch[1];
-
-      console.log('newToken (from URL hash):', newToken); 
-
-      if (newToken) {
-        window.localStorage.setItem('spotify_token', newToken);
-        setToken(newToken);
-        window.location.hash = '';
-      }
-    } else if (storedToken) {
-      setToken(storedToken);
-    }
-  }, []);
+    localStorage.removeItem('spotify_token');
+  };
 
   return (
     <>
       <h1>Jammming</h1>
       <h3>Search for your favorite songs, make your own playlist, and export to your Spotify</h3>
 
-      <p>Token: {token}</p>
-
-      <p style={{ wordBreak: 'break-all' }}>🧪 Token: {token}</p>
       <div>
         {
           !token ? (
             <div>
               <p>Please log in to continue</p>
-              <a href={AUTH_ENDPOINT}>
-                <button>log in with Spotify</button>
-              </a>
+              <button onClick={redirectToSpotifyLogin}>Log in with Spotify</button>
             </div>
           ) : (
             <div className="components">
@@ -128,4 +170,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
