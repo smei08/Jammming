@@ -50,7 +50,7 @@ export default function App() {
       {headers: { Authorization:`Bearer ${token}`}}
       );
 
-      if (!response.ok) threw new Error('Spotify search failed');
+      if (!response.ok) throw new Error('Spotify search failed');
 
       const songData = await response.json();
       const tracks = songData.tracks.items.map(item => ({
