@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react';
 import { startLogin, getToken } from './spotifyAuth';
+import SearchBar from './assets/components/SearchBar';
+import TrackList from './assets/components/TrackList';
+import Playlist from './assets/components/Playlist';
 
 export default function App() {
+  const [songSearch, setSongSearch] = useState('');
+  const [searchResult, setSearchResult] = useState([]);
+  const [playlist, setPlaylist] = useState([]);
   const [token, setToken] = useState(null);
   const [message, setMessage] = useState('Checking auth...');
 
@@ -31,6 +37,45 @@ export default function App() {
     }
   }, []);
 
+  const handleSongSearch = (e) => {
+    setSongSearch(e.target.value);
+  };
+
+  const handleSearchResult = () => {
+    console.log('search submitted: ', songSearch);
+    setSearchResult([
+      {
+        id: '1',
+        title: 'Test Song One',
+        artist: 'Test Artist A',
+        album: 'Test Album A'
+      },
+      {
+        id: '2',
+        title: 'Test Song Two',
+        artist: 'Test Artist B',
+        album: 'Test Album B'
+      }
+    ]);
+  };
+  
+  const addToPlaylist = (track) => {
+    console.log('addded to playlist: ', track);
+    setPlaylist((prev) => {
+      if((!prev.find((result) => result.id === track.id))) {
+        return [...prev, track];
+      } 
+      return prev;
+    })
+  };
+
+  const removeFromPlaylist = (track) => {
+    setPlaylist((prev) => (
+      prev.filter((result) => result.id !== track.id)
+    ))
+  };
+
+
   if (!token) {
     return (
       <div style={{ padding: '2rem', textAlign: 'center' }}>
@@ -56,6 +101,24 @@ export default function App() {
       }}>
         LOGOUT
       </button>
+      <main>
+        <SearchBar 
+          songSearch={songSearch}
+          searchUpdate={handleSongSearch}
+          handleSearchResult={handleSearchResult}
+        />
+        <hr></hr>
+        <TrackList 
+          searchResult={searchResult}
+          addToPlaylist={addToPlaylist}
+        />
+        <hr></hr>
+        <Playlist 
+          playlist={playlist}
+          removeFromPlaylist={removeFromPlaylist}
+          // exportPlaylist={exportPlaylist}
+        />
+      </main>
     </div>
   );
 }
