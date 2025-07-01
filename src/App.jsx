@@ -55,8 +55,8 @@ export default function App() {
       const songData = await response.json();
       const tracks = songData.tracks.items.map(item => ({
         id: item.id,
-        title: item.title,
-        artist: item.artist.name,
+        title: item.name,
+        artist: item.artist[0].name,
         album: item.album.name,
       }));
 
