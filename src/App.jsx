@@ -41,22 +41,29 @@ export default function App() {
     setSongSearch(e.target.value);
   };
 
-  const handleSearchResult = () => {
-    console.log('search submitted: ', songSearch);
-    setSearchResult([
-      {
-        id: '1',
-        title: 'Test Song One',
-        artist: 'Test Artist A',
-        album: 'Test Album A'
-      },
-      {
-        id: '2',
-        title: 'Test Song Two',
-        artist: 'Test Artist B',
-        album: 'Test Album B'
-      }
-    ]);
+  const handleSearchResult = async () => {
+    try {
+      const token = sessionStorage.getItem('spotify_token');
+      if(!token) throw new Error('Need Authentication');
+
+      const response = await fetch(`https://api.spotify.com/v1/search?q=${encodeURIComponent(songSearch)}&type=track`, 
+      {headers: { Authorization:`Bearer ${token}`}}
+      );
+
+      if (!response.ok) threw new Error('Spotify search failed');
+
+      const songData = await response.json();
+      const tracks = songData.tracks.items.map(item => ({
+        id: item.id,
+        title: item.title,
+        artist: item.artist.name,
+        album: item.album.name,
+      }));
+
+      setSearchResult(tracks);
+    } catch (error) {
+      console.log('Search Error: ', error);
+    }
   };
   
   const addToPlaylist = (track) => {
@@ -94,7 +101,7 @@ export default function App() {
   return (
     <div style={{ padding: '2rem' }}>
       <h1>SUCCESS! 🎉</h1>
-      <p>Token: {token.slice(0, 15)}...</p>
+      {/* <p>Token: {token.slice(0, 15)}...</p> */}
       <button onClick={() => {
         sessionStorage.clear();
         window.location.reload();
