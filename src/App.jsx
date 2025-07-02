@@ -46,14 +46,15 @@ export default function App() {
       const token = sessionStorage.getItem('spotify_token');
       if(!token) throw new Error('Need Authentication');
 
-      const response = await fetch(`https://api.spotify.com/v1/search?q=${encodeURIComponent(songSearch)}&type=track`, 
-      {headers: { Authorization:`Bearer ${token}`}}
+      const response = await fetch(
+        `https://api.spotify.com/v1/search?q=${encodeURIComponent(songSearch)}&type=track`, 
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
       if (!response.ok) throw new Error('Spotify search failed');
 
       const songData = await response.json();
-      console.log("FULL SPOTIFY RESPONSE:", songData); // 👈 Critical for debugging
+      console.log("FULL SPOTIFY RESPONSE:", songData);
 
       if (!songData.tracks || !songData.tracks.items) {
         throw new Error("Invalid Spotify response structure");
@@ -61,14 +62,15 @@ export default function App() {
 
       const tracks = songData.tracks.items.map(item => ({
         id: item.id,
-        title: item.name,
-        artist: item.artist[0].name,
-        album: item.album.name,
+        title: item.name || "Untitled",
+        artist: item.artists?.[0]?.name || "Unknown Artist", // Fixed syntax here
+        album: item.album?.name || "Unknown Album"  // Fixed syntax here
       }));
 
+      console.log("Processed tracks:", tracks);
       setSearchResult(tracks);
     } catch (error) {
-      console.log('Search Error: ', error);
+      console.error('Search Error: ', error);
       setSearchResult([]); 
     }
   };
