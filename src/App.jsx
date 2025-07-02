@@ -55,7 +55,7 @@ export default function App() {
       const songData = await response.json();
       console.log("FULL SPOTIFY RESPONSE:", songData); // 👈 Critical for debugging
 
-      if (!data.tracks || !data.tracks.items) {
+      if (!songData.tracks || !songData.tracks.items) {
         throw new Error("Invalid Spotify response structure");
       }
 
