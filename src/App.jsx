@@ -53,7 +53,7 @@ export default function App() {
       if (!response.ok) throw new Error('Spotify search failed');
 
       const songData = await response.json();
-      console.log("FULL SPOTIFY RESPONSE:", data); // 👈 Critical for debugging
+      console.log("FULL SPOTIFY RESPONSE:", songData); // 👈 Critical for debugging
 
       if (!data.tracks || !data.tracks.items) {
         throw new Error("Invalid Spotify response structure");
