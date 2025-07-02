@@ -53,6 +53,12 @@ export default function App() {
       if (!response.ok) throw new Error('Spotify search failed');
 
       const songData = await response.json();
+      console.log("FULL SPOTIFY RESPONSE:", data); // 👈 Critical for debugging
+
+      if (!data.tracks || !data.tracks.items) {
+        throw new Error("Invalid Spotify response structure");
+      }
+
       const tracks = songData.tracks.items.map(item => ({
         id: item.id,
         title: item.name,
@@ -63,6 +69,7 @@ export default function App() {
       setSearchResult(tracks);
     } catch (error) {
       console.log('Search Error: ', error);
+      setSearchResult([]); 
     }
   };
   
