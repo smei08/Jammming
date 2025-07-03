@@ -99,7 +99,7 @@ export default function App() {
         <p>{message}</p>
         <button 
           onClick={startLogin}
-          style={{ padding: '10px 20px', fontSize: '1.2rem' }}
+          className='login-butt'
         >
           LOGIN WITH SPOTIFY
         </button>
@@ -108,27 +108,25 @@ export default function App() {
   }
 
   return (
-    <div style={{ padding: '2rem' }}>
+    <div className='component-container'>
       <h1>SUCCESS! 🎉</h1>
-      {/* <p>Token: {token.slice(0, 15)}...</p> */}
-      <button onClick={() => {
+      
+      <button className='logout-butt' onClick={() => {
         sessionStorage.clear();
         window.location.reload();
       }}>
         LOGOUT
       </button>
-      <main>
+      <main className='components'>
         <SearchBar 
           songSearch={songSearch}
           searchUpdate={handleSongSearch}
           handleSearchResult={handleSearchResult}
         />
-        <hr></hr>
         <TrackList 
           searchResult={searchResult}
           addToPlaylist={addToPlaylist}
         />
-        <hr></hr>
         <Playlist 
           playlist={playlist}
           removeFromPlaylist={removeFromPlaylist}
