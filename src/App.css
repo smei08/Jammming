@@ -1,4 +1,17 @@
-* {
-    border: 0;
+
+body {
     margin: 0;
+    padding: 0;
+    height: 100vh;
 }
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    background-color: black;
+    color: white;
+}
+

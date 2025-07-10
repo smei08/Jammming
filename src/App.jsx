@@ -3,6 +3,7 @@ import { startLogin, getToken } from './spotifyAuth';
 import SearchBar from './assets/components/SearchBar';
 import TrackList from './assets/components/TrackList';
 import Playlist from './assets/components/Playlist';
+import './App.css';
 
 export default function App() {
   const [songSearch, setSongSearch] = useState('');
@@ -94,9 +95,9 @@ export default function App() {
 
   if (!token) {
     return (
-      <div style={{ padding: '2rem', textAlign: 'center' }}>
-        <h1>🔥 JAMMING v2 🔥</h1>
-        <p>{message}</p>
+      <div className='login-container'>
+        <h1 className='login-title'>🔥 JAMMING v2 🔥</h1>
+        <p className='login-message'>{message}</p>
         <button 
           onClick={startLogin}
           className='login-butt'
