@@ -96,7 +96,7 @@ export default function App() {
   if (!token) {
     return (
       <div className='login-container'>
-        <h1 className='login-title'>🔥 JAMMING v2 🔥</h1>
+        <h1 className='login-title'>🔥 JAMMING 🔥</h1>
         <p className='login-message'>{message}</p>
         <button 
           onClick={startLogin}
