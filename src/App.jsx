@@ -111,7 +111,7 @@ export default function App() {
   return (
     <div className='component-container'>
       <header>
-        <h1>oh heyyy! 🎉</h1>
+        <h1>oh heyyy!</h1>
       
         <button className='logout-butt' onClick={() => {
           sessionStorage.clear();

@@ -8,18 +8,25 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
     flex-direction: column;
 }
 header {
-    height: 100vh;
+    height: 20%;
     margin: auto;
-    padding:50px;
+    width: 100%;
+    padding: 20px 50px;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     background-color: rgb(152, 214, 152);
+    color: white;
+}
+.logout-butt {
+    border-radius: 25px;
+    border: none;
+    padding: 5px 15px;
+    transition: background 0.2s ease;
 }
 
 .login-container {
