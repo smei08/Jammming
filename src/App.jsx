@@ -110,14 +110,16 @@ export default function App() {
 
   return (
     <div className='component-container'>
-      <h1>SUCCESS! 🎉</h1>
+      <header>
+        <h1>oh heyyy! 🎉</h1>
       
-      <button className='logout-butt' onClick={() => {
-        sessionStorage.clear();
-        window.location.reload();
-      }}>
-        LOGOUT
-      </button>
+        <button className='logout-butt' onClick={() => {
+          sessionStorage.clear();
+          window.location.reload();
+        }}>
+          LOGOUT
+        </button>
+      </header>
       <main className='components'>
         <SearchBar 
           songSearch={songSearch}

@@ -4,6 +4,23 @@ body {
     padding: 0;
     height: 100vh;
 }
+.component-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+header {
+    height: 100vh;
+    margin: auto;
+    padding:50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgb(152, 214, 152);
+}
 
 .login-container {
     display: flex;
@@ -35,3 +52,5 @@ body {
 .login-butt:hover {
   background-color: #1ed760;
 }
+
+
