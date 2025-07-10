@@ -28,6 +28,9 @@ header {
     padding: 5px 15px;
     transition: background 0.2s ease;
 }
+.logout-butt:hover {
+    background-color: green;
+}
 
 .login-container {
     display: flex;
