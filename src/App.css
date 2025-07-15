@@ -63,4 +63,26 @@ header {
   background-color: #1ed760;
 }
 
+.searchbar form {
+    display: flex;
+    flex-direction: column;
+}
 
+.input {
+    width: 200px;
+    padding: 10px 60px;
+    margin-top: 50px;
+    border-radius: 25px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.searchbutt {
+    border:none;
+    border-radius: 25px;
+    padding: 10px;
+    transition: background-color 0.2s ease;
+}
+.searchbutt:hover {
+    background-color: #1DB954;
+}

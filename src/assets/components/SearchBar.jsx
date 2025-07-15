@@ -12,12 +12,13 @@ function SearchBar({ songSearch, searchUpdate,handleSearchResult }) {
         <div className="searchbar">
             <form onSubmit={handleSubmit}>
                 <input
+                    className="input"
                     type='text'
                     value={songSearch}
                     onChange={searchUpdate}
                     placeholder="Search song or artist..."
                 ></input>
-                <button type='submit'>Search</button>
+                <button className="searchbutt" type='submit'>Search</button>
             </form>
         </div>
     );
