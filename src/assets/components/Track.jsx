@@ -8,6 +8,7 @@ function Track({ track, addToPlaylist }) {
                 <p>{track.artist} -- {track.album}</p>
             </div>
             <button onClick={() => addToPlaylist(track)}>+</button>
+            <hr></hr>
         </div>
     );
 }

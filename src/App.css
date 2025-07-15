@@ -9,6 +9,7 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    width: 100%;
 }
 header {
     box-sizing: border-box;
@@ -89,4 +90,30 @@ header {
 }
 .searchbutt:hover {
     background-color: #1DB954;
+}
+
+.displays {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.playlist {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 35%;
+    flex-direction: column;
+}
+
+.searchresult {
+    display: flex;
+    flex-direction: column;
+}
+
+.trackContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
