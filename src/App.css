@@ -1,8 +1,8 @@
-
 body {
     margin: 0;
     padding: 0;
     height: 100vh;
+    box-sizing: border-box;
 }
 .component-container {
     display: flex;
@@ -11,6 +11,7 @@ body {
     flex-direction: column;
 }
 header {
+    box-sizing: border-box;
     height: 20%;
     margin: auto;
     width: 100%;

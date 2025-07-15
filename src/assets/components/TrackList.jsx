@@ -4,7 +4,7 @@ import Track from "./Track";
 function TrackList({searchResult, addToPlaylist}) {
     console.log('tracklist loading..')
     return (
-        <div>
+        <div className="searchresult">
             {
                 searchResult.map((track) => 
                     <Track 

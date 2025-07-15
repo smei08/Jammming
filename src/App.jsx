@@ -126,15 +126,17 @@ export default function App() {
           searchUpdate={handleSongSearch}
           handleSearchResult={handleSearchResult}
         />
-        <TrackList 
-          searchResult={searchResult}
-          addToPlaylist={addToPlaylist}
-        />
-        <Playlist 
-          playlist={playlist}
-          removeFromPlaylist={removeFromPlaylist}
-          // exportPlaylist={exportPlaylist}
-        />
+        <div className='displays'>
+          <TrackList 
+            searchResult={searchResult}
+            addToPlaylist={addToPlaylist}
+          />
+          <Playlist 
+            playlist={playlist}
+            removeFromPlaylist={removeFromPlaylist}
+            // exportPlaylist={exportPlaylist}
+          />
+        </div>
       </main>
     </div>
   );
