@@ -5,7 +5,8 @@ function Track({ track, addToPlaylist }) {
         <div className="trackContainer">
             <div className="trackInfo">
                 <h4>{track.title}</h4>
-                <p>{track.artist} -- {track.album}</p>
+                <p>{track.artist}</p>
+                <p>{track.album}</p> 
             </div>
             <button onClick={() => addToPlaylist(track)}>+</button>
             <hr></hr>

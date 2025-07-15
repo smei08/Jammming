@@ -11,6 +11,9 @@ body {
     flex-direction: column;
     width: 100%;
 }
+.components {
+    width: 100%;
+}
 header {
     box-sizing: border-box;
     height: 20%;
