@@ -6,7 +6,7 @@ function Playlist({ playlist, removeFromPlaylist, exportPlaylist }) {
             <h4>Your Playlist</h4>
             {
                 playlist.map(track => (
-                    <div key={track.id}>
+                    <div className="playlist-track" key={track.id}>
                         <p>{track.title} -- {track.artist}</p>
                         <button onClick={() => removeFromPlaylist(track)}>-</button>
                     </div>
